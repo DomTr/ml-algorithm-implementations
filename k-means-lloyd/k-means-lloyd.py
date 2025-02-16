@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 import math
+from sklearn.cluster import KMeans  # for comparison with sklearn's algorithm
 
 """
 k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid), serving as a prototype of the cluster
@@ -144,7 +145,21 @@ def color_code(center_dict, x, y, center_x, center_y):
 
         plt.plot(c_x, c_y, "o")
     plt.scatter(center_x, center_y, color="black")
-    plt.savefig("calculated_centers.png")
+    plt.savefig("k-means-lloyd/calculated_centers.png")
+
+
+def sklearn_kmeans(x, y, K):
+    """Performs kmeans from sklearn library on the same dataset.
+    :param float list x: x-coordinate of regular points
+    :param float list y: y-coordinate of regular points
+    :param int K: number of clusters
+    """
+    X = np.column_stack((x, y))
+    kmeans = KMeans(n_clusters=K)
+    kmeans.fit(X)  # perfoms kmeans algorithm on X
+    plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_, cmap="rainbow")
+    plt.savefig("k-means-lloyd/sklearn_kmeans.png")
+    plt.clf()  # clears canvas
 
 
 # Main algorithm
@@ -155,12 +170,17 @@ def lloyd_algorithm(iter, N=300, K=10):
     :param int K: number of center points
     """
     x, y = get_points(N, -1000, 1000)
+
     center_x, center_y = get_starting_centers(K, -100, 100)
+    sklearn_kmeans(
+        x, y, K
+    )  # doesn't need to be called. This is only for comparison with the built-in library function.
     last_difference = 1000000000.0
     curr_diff = 0.0
     center_dict = {}
     plt.scatter(center_x, center_y, color="cyan")
-    plt.savefig("initial_centers.png")
+    plt.savefig("k-means-lloyd/initial_centers.png")
+    plt.clf()  # clear canvas, the initial centers no longer are seen in the final picture
     while iter > 0:
         center_dict = assign_to_center(
             x, y, center_x, center_y
@@ -178,7 +198,8 @@ def lloyd_algorithm(iter, N=300, K=10):
             last_difference = curr_diff
 
     plt.scatter(x, y, color="orange")
-    plt.savefig("initial_points.png")
+    plt.savefig("k-means-lloyd/initial_points.png")
+    plt.clf()  # clear canvas
     color_code(center_dict, x, y, center_x, center_y)
     # plt.scatter(center_x, center_y, color="blue")
     # plt.savefig("calculated_centers.png")
