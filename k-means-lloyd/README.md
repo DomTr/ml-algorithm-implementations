@@ -1,5 +1,5 @@
 This is a k-means Lloyd algorithm impelementation in python. k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean (cluster centers or cluster centroid), serving as a prototype of the cluster
-(Wikipedia: https://en.wikipedia.org/wiki/K-means_clustering, looked at 2024 02 14)
+(Wikipedia: https://en.wikipedia.org/wiki/K-means_clustering, looked at 2025 02 14)
 
 This program aims to partition points into k clusters using k-means Lloyd algorithm.
 
