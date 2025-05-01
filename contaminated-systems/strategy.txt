@@ -1,0 +1,7 @@
+Create a random Gaussian 50x1000 matrix, not necessarily Equiangular Tight Frame.
+Then take some signal w, multiply, add s-sparse error vector e and get code-word c.
+
+Afterwards try finding matrix PSI s.t. ker(PSI) = col(phi*). Then you get PSIc = PSIe, we try finding e with L1 norm linear program.
+After finding it, try substituting w' = c - e and see error-value from w.
+
+Try visualising how vectors of an image get recovered by this method.
