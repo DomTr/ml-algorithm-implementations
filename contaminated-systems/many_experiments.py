@@ -68,6 +68,16 @@ def random_integer_vector(size, l, r):
     return np.random.randint(low=l, high=r + 1, size=size)
 
 
+def fill_random_k_entries_uniform(v, k):
+    v = np.asarray(v)
+    w = np.zeros_like(v)
+    random_indices = np.random.choice(len(v), k, replace=False)
+    mu = 100  # mean
+    sigma = 200  # standard deviation
+    w[random_indices] = np.random.normal(loc=mu, scale=sigma, size=k)
+    return w
+
+
 """
 Measures how well original vector can be recovered when error-vector sparsity is k.
 w, PHI, y stay the same throughout the experiment. Only error-vector e changes.

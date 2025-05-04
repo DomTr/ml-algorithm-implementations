@@ -71,6 +71,16 @@ def pollute_top_k_entries(v, k):
     return w
 
 
+def fill_random_k_entries_uniform(v, k):
+    v = np.asarray(v)
+    w = np.zeros_like(v)
+    random_indices = np.random.choice(len(v), k, replace=False)
+    mu = 100  # mean
+    sigma = 200  # standard deviation
+    w[random_indices] = np.random.normal(loc=mu, scale=sigma, size=k)
+    return w
+
+
 def random_integer_vector(size, l, r):
     return np.random.randint(low=l, high=r + 1, size=size)
 
