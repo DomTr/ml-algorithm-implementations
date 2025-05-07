@@ -75,8 +75,8 @@ def fill_random_k_entries_uniform(v, k):
     v = np.asarray(v)
     w = np.zeros_like(v)
     random_indices = np.random.choice(len(v), k, replace=False)
-    mu = 100  # mean
-    sigma = 200  # standard deviation
+    mu = v.mean()  # mean
+    sigma = max(np.abs(mu), 200)  # standard deviation
     w[random_indices] = np.random.normal(loc=mu, scale=sigma, size=k)
     return w
 
@@ -142,13 +142,17 @@ print(f"Worst-case coherence of PHI is %.6f" % mu)
 print(f"Matrix PSI can fully recover signal with l1 minimisation if s < {guarantee}")
 
 avg_entry = np.mean(np.abs(w))
+w_length = np.linalg.norm(w)
 rmse = np.sqrt(((w_guess - w) ** 2).mean())
-rmse_relative = 100.0 * rmse / avg_entry
+rmse_relative = 100.0 * rmse / w_length
 rmse_error = np.sqrt(
     ((e_guess - e) ** 2).mean()
 )  # rmse of how well error-vector was being recovered
-avg_entry_e = np.mean(np.abs(e))
-rmse_relative_e = 100.0 * rmse / avg_entry_e
+avg_entry_e = np.mean(
+    np.abs(e)
+)  # could be used instead of error_length to get another error measures
+error_length = np.linalg.norm(e)
+rmse_relative_e = 100.0 * rmse / error_length
 
 # 10. Printing results in console
 print(f"CVXPY L1 Recovery RMSE: {rmse}")

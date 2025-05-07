@@ -72,8 +72,8 @@ def fill_random_k_entries_uniform(v, k):
     v = np.asarray(v)
     w = np.zeros_like(v)
     random_indices = np.random.choice(len(v), k, replace=False)
-    mu = 100  # mean
-    sigma = 200  # standard deviation
+    mu = v.mean()  # mean
+    sigma = max(np.abs(mu), 200)  # standard deviation
     w[random_indices] = np.random.normal(loc=mu, scale=sigma, size=k)
     return w
 
@@ -170,8 +170,9 @@ print(
 # Plotting
 plt.figure(figsize=(10, 6))
 plt.plot(k_values, rmses, marker="o", label="RMSE")
-plt.plot(k_values, relative_rmses, marker="x", label="RMSE/avg.Entry (%)")
-plt.plot(k_values, relative_rmses_e, marker="v", label="relative error vector RMSE")
+# plt.plot(k_values, relative_rmses, marker="x", label="RMSE/avg.Entry (%)")
+# plt.plot(k_values, relative_rmses_e, marker="v", label="relative error vector RMSE")
+plt.plot(k_values, error_rmses, marker="^", label="error vector RMSE")
 plt.xlabel("Sparsity level k")
 plt.ylabel("Error")
 plt.title("Recovery Error vs. Sparsity Level")
@@ -186,8 +187,5 @@ plt.legend()
 
 plt.grid(True)
 # plt.show()
-plt.savefig("contaminated-systems/contaminated_systems_errors.png", dpi=300)
-plt.plot(k_values, error_rmses, marker="^", label="error vector RMSE")
-plt.savefig(
-    "contaminated-systems/contaminated_systems_errors_with_error_vector.png", dpi=300
-)
+plt.savefig("contaminated-systems/normal_distr.png", dpi=300)
+# plt.savefig("contaminated-systems/contaminated_systems_errors_with_error_vector.png", dpi=300)
